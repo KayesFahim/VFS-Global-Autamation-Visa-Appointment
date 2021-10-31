@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from io import BytesIO
+from imap_tools import MailBox 
 from PIL import Image
 import time
 import easyocr
@@ -34,7 +35,8 @@ im.save('captcha.png')
 reader = easyocr.Reader(['en'], gpu=True, model_storage_directory='')
 output = reader.readtext('captcha.png', detail = 0)
 captchtext = ' '.join(map(str, output))
-finalCaptchText = re.escape(captchtext.upper())
+rv_special = re.sub('[^a-zA-Z0-9 \n\.]', '', captchtext)
+finalCaptchText = rv_special.upper()
 
 #Captch Solver
 driver.find_element_by_id('CaptchaInputText').send_keys(finalCaptchText) #captcha
@@ -59,7 +61,7 @@ driver.find_element_by_id('btnContinue').click() #Visa Page button click
 driver.find_element_by_xpath('/html/body/div[2]/div[1]/div[3]/div[3]/a').click()
 
 #Passport Number
-driver.find_element_by_id('PassportNumber').send_keys("BN32402426")
+driver.find_element_by_id('PassportNumber').send_keys("BN3242426")
 
 
 #Date of Birth
@@ -90,10 +92,9 @@ accept = driver.switch_to.alert
 accept.accept()
 
 #OTP
-time.sleep(5)
 driver.find_element(By.XPATH, '//*[@id="ApplicantListForm"]/div[2]').click() #OTP send
 
-time.sleep(5)
+time.sleep(15)
 #OTP reading
 host = 'imap.gmail.com'
 username = 'mrfawbd@gmail.com'
@@ -129,23 +130,20 @@ if __name__ == "__main__":
     result = json.dumps(PlainText)
     getOTP = re.findall('\d+', result)
     finalOTP = ' '.join(map(str, getOTP))
+print(finalOTP)
+#Delete Mail Box
+time.sleep(5)
 
-
-time.sleep(8)    
 #OTP
 driver.find_element_by_id('OTPe').send_keys(finalOTP) #captcha
-
 driver.find_element_by_id('txtsub').click()
-
-
 driver.find_element_by_id('btnContinueService').click()
 
-driver.find_element_by_css_selector("div[style='background-color: rgb(188, 237, 145); cursor: pointer;']")
+#Date Select
+driver.find_element_by_css_selector("div[style='background-color: rgb(188, 237, 145); cursor: pointer;']").click()
 
+#driver.find_element_by_css_selector("input[type='radio'][value='xUc2m4DGouH7OxZSdHnSfqXhFube1hrRw4luyX2FSZA=']").click()
 
-driver.find_element_by_css_selector("input[type='radio'][value='xUc2m4DGouH7OxZSdHnSfqXhFube1hrRw4luyX2FSZA=']").click()
-
-time.sleep(5)
 
 driver.find_element_by_id('ReachVFS').click()
 driver.find_element_by_id('IAgree').click()
