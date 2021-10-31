@@ -15,7 +15,6 @@ import json
 
 
 
-
 #Web driver Init
 driver = webdriver.Chrome('chromedriver.exe')
 driver.maximize_window()
@@ -23,12 +22,10 @@ String_Url ='https://row1.vfsglobal.com/GlobalAppointment/Account/RegisteredLogi
 driver.get(String_Url)
 
 #Login
-
 driver.find_element_by_id('EmailId').send_keys('mrfawbd@gmail.com') #Email
 driver.find_element_by_id('Password').send_keys('@Kayes321') #password
 
 #Take screenshot
-
 image = driver.find_element_by_id('CaptchaImage').screenshot_as_png
 im = Image.open(BytesIO(image)).convert('L')  # uses PIL library to open image in memory
 im.save('captcha.png')
@@ -106,8 +103,8 @@ password = '@Kayes321'
 def get_inbox():
     mail = imaplib.IMAP4_SSL(host)
     mail.login(username, password)
-    mail.select("inbox")
-    _, search_data = mail.search(None, 'UNSEEN', '(SUBJECT "OTP Confirmation Email")')
+    mail.select("INBOX")
+    _, search_data = mail.search(None,'(UNSEEN)', '(SUBJECT "OTP Confirmation Email")')
     my_message = []
     for num in search_data[0].split():
         email_data = {}
@@ -154,5 +151,3 @@ driver.find_element_by_id('ReachVFS').click()
 driver.find_element_by_id('IAgree').click()
 
 driver.find_element_by_xpath('//*[@id="btnConfirm"]').click()
-
-
