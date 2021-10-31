@@ -30,14 +30,14 @@ driver.find_element_by_id('Password').send_keys('@Kayes321') #password
 #Take screenshot
 
 image = driver.find_element_by_id('CaptchaImage').screenshot_as_png
-im = Image.open(BytesIO(image))  # uses PIL library to open image in memory
+im = Image.open(BytesIO(image)).convert('L')  # uses PIL library to open image in memory
 im.save('captcha.png')
 
 #Load Image and convert into text
 reader = easyocr.Reader(['en'], gpu=True, model_storage_directory='')
 output = reader.readtext('captcha.png', detail = 0)
 captchtext = ' '.join(map(str, output))
-finalCaptchText = captchtext.isupper()
+finalCaptchText = re.escape(captchtext.upper())
 
 #Captch Solver
 driver.find_element_by_id('CaptchaInputText').send_keys(finalCaptchText) #captcha
@@ -76,6 +76,11 @@ driver.find_element_by_id('PassportExpiryDate').send_keys("01012025")
 ddelement= Select(driver.find_element_by_id('NationalityId'))
 ddelement.select_by_visible_text('BANGLADESH')
 
+#Mobile
+
+driver.find_element_by_id('Mobile').clear()
+driver.find_element_by_id('Mobile').send_keys('1685370455')
+
 #Select Nationality Id
 ddelement= Select(driver.find_element_by_id('GenderId'))
 ddelement.select_by_visible_text('Male')
@@ -90,8 +95,8 @@ accept.accept()
 #OTP
 time.sleep(5)
 driver.find_element(By.XPATH, '//*[@id="ApplicantListForm"]/div[2]').click() #OTP send
-time.sleep(30)
 
+time.sleep(5)
 #OTP reading
 host = 'imap.gmail.com'
 username = 'mrfawbd@gmail.com'
@@ -127,26 +132,19 @@ if __name__ == "__main__":
     result = json.dumps(PlainText)
     getOTP = re.findall('\d+', result)
     finalOTP = ' '.join(map(str, getOTP))
-    print(int(finalOTP))
 
 
-
-
-
-
-
-
+time.sleep(5)    
+#OTP
+driver.find_element_by_id('OTPe').send_keys(finalOTP) #captcha
 
 driver.find_element_by_id('txtsub').click()
 
 
 driver.find_element_by_id('btnContinueService').click()
 
-time.sleep(5)
+driver.find_element_by_css_selector("div[style='background-color: rgb(188, 237, 145); cursor: pointer;']")
 
-driver.find_element_by_xpath("//div[@class='fc-day fc-wed fc-widget-content fc-future' and style='background-color: rgb(255, 150, 202); cursor: pointer;']")
-
-time.sleep(5)
 
 driver.find_element_by_css_selector("input[type='radio'][value='xUc2m4DGouH7OxZSdHnSfqXhFube1hrRw4luyX2FSZA=']").click()
 

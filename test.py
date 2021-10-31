@@ -39,5 +39,5 @@ if __name__ == "__main__":
     result = json.dumps(PlainText)
     getOTP = re.findall('\d+', result)
     finalOTP = ' '.join(map(str, getOTP))
-    print(int(finalOTP))
 
+print(finalOTP)
