@@ -6,15 +6,18 @@ from selenium.webdriver.support import expected_conditions as EC
 from io import BytesIO
 from PIL import Image
 import time
+import easyocr
 
+
+
+#Web driver Init
 driver = webdriver.Chrome('chromedriver.exe')
 driver.maximize_window()
-time.sleep(2)
 driver.get("https://row1.vfsglobal.com/GlobalAppointment/Account/RegisteredLogin")
 
 #Login
 
-driver.find_element_by_id('EmailId').send_keys('kayes.fuad@northsouth.edu') #Email
+driver.find_element_by_id('EmailId').send_keys('mrfawbd@gmail.com') #Email
 driver.find_element_by_id('Password').send_keys('@Kayes321') #password
 
 #Take screenshot
@@ -23,12 +26,14 @@ image = driver.find_element_by_id('CaptchaImage').screenshot_as_png
 im = Image.open(BytesIO(image))  # uses PIL library to open image in memory
 im.save('captcha.png')
 
-#Load Image
-
+#Load Image and convert into text
+reader = easyocr.Reader(['en'], gpu=True, model_storage_directory='')
+output = reader.readtext('captcha.png', detail = 0)
+listToStr = ' '.join(map(str, output))
 
 #Captch Solver
-driver.find_element_by_id('CaptchaInputText').send_keys("") #captcha
-time.sleep(5)
+driver.find_element_by_id('CaptchaInputText').send_keys(listToStr) #captcha
+
 
 driver.find_element_by_xpath('//*[@id="ApplicantListForm"]/div[4]').click()
 
@@ -48,7 +53,7 @@ driver.find_element_by_id('btnContinue').click() #Visa Page button click
 driver.find_element_by_xpath('/html/body/div[2]/div[1]/div[3]/div[3]/a').click()
 
 #Passport Number
-driver.find_element_by_id('PassportNumber').send_keys("BN3240242")
+driver.find_element_by_id('PassportNumber').send_keys("BN32402426")
 
 
 #Date of Birth
@@ -75,10 +80,14 @@ accept.accept()
 
 #OTP
 time.sleep(5)
-driver.find_element(By.XPATH, '//*[@id="ApplicantListForm"]/div[2]').click()
+driver.find_element(By.XPATH, '//*[@id="ApplicantListForm"]/div[2]').click() #OTP send
 time.sleep(30)
 
+#OTP reading
+
+
 driver.find_element_by_id('txtsub').click()
+
 
 driver.find_element_by_id('btnContinueService').click()
 
