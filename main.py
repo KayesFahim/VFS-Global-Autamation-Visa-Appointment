@@ -131,7 +131,7 @@ if __name__ == "__main__":
     finalOTP = ' '.join(map(str, getOTP))
 
 
-time.sleep(5)    
+time.sleep(8)    
 #OTP
 driver.find_element_by_id('OTPe').send_keys(finalOTP) #captcha
 
