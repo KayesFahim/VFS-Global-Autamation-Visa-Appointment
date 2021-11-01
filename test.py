@@ -3,18 +3,17 @@ import email
 import html2text
 import re
 import json
-from imapclient import IMAPClient
 import email
 
 
-host = 'imap.gmail.com'
-username = 'mrfawbd@gmail.com'
+host = 'flyfarint.org'
+username = 'a1@flyfarint.org'
 password = '@Kayes321'
 
 imap = imaplib.IMAP4_SSL(host)
 imap.login(username, password)
 imap.select("inbox")
-_, search_data = imap.search(None, 'UNSEEN', '(SUBJECT "OTP Confirmation Email")')
+_, search_data = imap.search(None, 'ALL', '(SUBJECT "WELCOME")')
 my_message = []
 for num in search_data[0].split():
     email_data = {}
@@ -39,19 +38,3 @@ finalOTP = ' '.join(map(str, getOTP))
 print(finalOTP)
 
 #deeleted
-
-status, message_id_list = imap.search(None, 'SUBJECT "OTP Confirmation Email"')
-messages = message_id_list[0].split()
-
-for mail in messages:
-    # mark the mail as deleted
-    imap.store(mail, "+FLAGS", "\\Deleted")
-print("All selected mails have been deleted")
-
-# delete all the selected messages 
-imap.expunge()
-# close the mailbox
-imap.close()
-
-# logout from the account
-imap.logout()

@@ -4,15 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from io import BytesIO
-from imap_tools import MailBox 
 from PIL import Image
-import time
-import easyocr
-import imaplib
-import email
-import html2text
-import re
-import json
+import random, time, easyocr, re, json, html2text , email, imaplib
 
 
 
@@ -23,7 +16,7 @@ String_Url ='https://row1.vfsglobal.com/GlobalAppointment/Account/RegisteredLogi
 driver.get(String_Url)
 
 #Login
-driver.find_element_by_id('EmailId').send_keys('mrfawbd@gmail.com') #Email
+driver.find_element_by_id('EmailId').send_keys('a1@flyfarint.org') #Email
 driver.find_element_by_id('Password').send_keys('@Kayes321') #password
 
 #Take screenshot
@@ -35,8 +28,7 @@ im.save('captcha.png')
 reader = easyocr.Reader(['en'], gpu=True, model_storage_directory='')
 output = reader.readtext('captcha.png', detail = 0)
 captchtext = ' '.join(map(str, output))
-rv_special = re.sub('[^a-zA-Z0-9 \n\.]', '', captchtext)
-finalCaptchText = rv_special.upper()
+finalCaptchText = re.escape(captchtext.upper())
 
 #Captch Solver
 driver.find_element_by_id('CaptchaInputText').send_keys("") #captcha
@@ -58,11 +50,10 @@ ddelement.select_by_index(1)
 driver.find_element_by_id('btnContinue').click() #Visa Page button click
 
 
-<<<<<<< HEAD
 for i in range(0, 5):
     #Add Customer
     driver.find_element_by_link_text('Add Customer').click()   
-    driver.find_element_by_id('PassportNumber').send_keys("BN32400426"+str(i))
+    driver.find_element_by_id('PassportNumber').send_keys("BN"+str(random.randint(0, 9999999))+str(i+3))
     driver.find_element_by_id('DateOfBirth').send_keys("11011998")
     driver.find_element_by_id('PassportExpiryDate').send_keys("01012025")
     ddelement= Select(driver.find_element_by_id('NationalityId'))
@@ -76,20 +67,12 @@ for i in range(0, 5):
     accept = driver.switch_to.alert
     accept.accept()
     
-=======
-#Passport Number
-driver.find_element_by_id('PassportNumber').send_keys("BN3242426")
->>>>>>> main
 
 
 #OTP
 driver.find_element(By.XPATH, '//*[@id="ApplicantListForm"]/div[2]').click() #OTP send
 
-<<<<<<< HEAD
 time.sleep(30)
-=======
-time.sleep(15)
->>>>>>> main
 #OTP reading
 host = 'imap.gmail.com'
 username = 'mrfawbd@gmail.com'
@@ -125,33 +108,25 @@ if __name__ == "__main__":
     result = json.dumps(PlainText)
     getOTP = re.findall('\d+', result)
     finalOTP = ' '.join(map(str, getOTP))
-print(finalOTP)
-#Delete Mail Box
-time.sleep(5)
 
-<<<<<<< HEAD
 
 time.sleep(5)    
-=======
->>>>>>> main
 #OTP
 driver.find_element_by_id('OTPe').send_keys(finalOTP) #captcha
+
 driver.find_element_by_id('txtsub').click()
+
+
 driver.find_element_by_id('btnContinueService').click()
 
-<<<<<<< HEAD
 #driver.find_element_by_css_selector("div[style='background-color: rgb(188, 237, 145); cursor: pointer;']")
 #driver.find_element_by_css_selector("input[type='radio'][value='xUc2m4DGouH7OxZSdHnSfqXhFube1hrRw4luyX2FSZA=']").click()
-=======
-#Date Select
-driver.find_element_by_css_selector("div[style='background-color: rgb(188, 237, 145); cursor: pointer;']").click()
-
-driver.find_element_by_css_selector("input[type='radio'][value='xUc2m4DGouH7OxZSdHnSfqXhFube1hrRw4luyX2FSZA=']").click()
-
->>>>>>> main
 
 time.sleep(10)
 driver.find_element_by_id('ReachVFS').click()
 driver.find_element_by_id('IAgree').click()
 
 driver.find_element_by_xpath('//*[@id="btnConfirm"]').click()
+
+
+
