@@ -37,9 +37,9 @@ captchtext = ' '.join(map(str, output))
 finalCaptchText = re.escape(captchtext.upper())
 
 #Captch Solver
-driver.find_element_by_id('CaptchaInputText').send_keys(finalCaptchText) #captcha
+driver.find_element_by_id('CaptchaInputText').send_keys("") #captcha
 
-time.sleep(2)
+time.sleep(8)
 driver.find_element_by_xpath('//*[@id="ApplicantListForm"]/div[4]').click() #Click Login Button
 
 #Click Appointments
@@ -55,45 +55,30 @@ ddelement.select_by_index(1)
 
 driver.find_element_by_id('btnContinue').click() #Visa Page button click
 
-#Add Customer
-driver.find_element_by_xpath('/html/body/div[2]/div[1]/div[3]/div[3]/a').click()
 
-#Passport Number
-driver.find_element_by_id('PassportNumber').send_keys("BN32402426")
+for i in range(0, 5):
+    #Add Customer
+    driver.find_element_by_link_text('Add Customer').click()   
+    driver.find_element_by_id('PassportNumber').send_keys("BN32400426"+str(i))
+    driver.find_element_by_id('DateOfBirth').send_keys("11011998")
+    driver.find_element_by_id('PassportExpiryDate').send_keys("01012025")
+    ddelement= Select(driver.find_element_by_id('NationalityId'))
+    ddelement.select_by_visible_text('BANGLADESH')
+    driver.find_element_by_id('Mobile').clear()
+    driver.find_element_by_id('Mobile').send_keys('1685370455')
+    ddelement= Select(driver.find_element_by_id('GenderId'))
+    ddelement.select_by_visible_text('Male')
+    #Button Click
+    driver.find_element(By.ID, 'submitbuttonId').click()
+    accept = driver.switch_to.alert
+    accept.accept()
+    
 
-
-#Date of Birth
-driver.find_element_by_id('DateOfBirth').send_keys("11011998")
-
-#Passport Expiry Date
-driver.find_element_by_id('PassportExpiryDate').send_keys("01012025")
-
-
-#Select Nationality Id
-ddelement= Select(driver.find_element_by_id('NationalityId'))
-ddelement.select_by_visible_text('BANGLADESH')
-
-#Mobile
-
-driver.find_element_by_id('Mobile').clear()
-driver.find_element_by_id('Mobile').send_keys('1685370455')
-
-#Select Nationality Id
-ddelement= Select(driver.find_element_by_id('GenderId'))
-ddelement.select_by_visible_text('Male')
-
-
-#Button Click
-
-driver.find_element(By.ID, 'submitbuttonId').click()
-accept = driver.switch_to.alert
-accept.accept()
 
 #OTP
-time.sleep(5)
 driver.find_element(By.XPATH, '//*[@id="ApplicantListForm"]/div[2]').click() #OTP send
 
-time.sleep(5)
+time.sleep(30)
 #OTP reading
 host = 'imap.gmail.com'
 username = 'mrfawbd@gmail.com'
@@ -131,7 +116,7 @@ if __name__ == "__main__":
     finalOTP = ' '.join(map(str, getOTP))
 
 
-time.sleep(8)    
+time.sleep(5)    
 #OTP
 driver.find_element_by_id('OTPe').send_keys(finalOTP) #captcha
 
@@ -140,13 +125,10 @@ driver.find_element_by_id('txtsub').click()
 
 driver.find_element_by_id('btnContinueService').click()
 
-driver.find_element_by_css_selector("div[style='background-color: rgb(188, 237, 145); cursor: pointer;']")
+#driver.find_element_by_css_selector("div[style='background-color: rgb(188, 237, 145); cursor: pointer;']")
+#driver.find_element_by_css_selector("input[type='radio'][value='xUc2m4DGouH7OxZSdHnSfqXhFube1hrRw4luyX2FSZA=']").click()
 
-
-driver.find_element_by_css_selector("input[type='radio'][value='xUc2m4DGouH7OxZSdHnSfqXhFube1hrRw4luyX2FSZA=']").click()
-
-time.sleep(5)
-
+time.sleep(10)
 driver.find_element_by_id('ReachVFS').click()
 driver.find_element_by_id('IAgree').click()
 
