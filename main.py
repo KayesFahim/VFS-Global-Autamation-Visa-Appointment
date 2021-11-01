@@ -142,7 +142,7 @@ driver.find_element_by_id('btnContinueService').click()
 #Date Select
 driver.find_element_by_css_selector("div[style='background-color: rgb(188, 237, 145); cursor: pointer;']").click()
 
-#driver.find_element_by_css_selector("input[type='radio'][value='xUc2m4DGouH7OxZSdHnSfqXhFube1hrRw4luyX2FSZA=']").click()
+driver.find_element_by_css_selector("input[type='radio'][value='xUc2m4DGouH7OxZSdHnSfqXhFube1hrRw4luyX2FSZA=']").click()
 
 
 driver.find_element_by_id('ReachVFS').click()
